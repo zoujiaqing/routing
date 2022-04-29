@@ -1,0 +1,5 @@
+name "routing"
+description "A minimal D application."
+authors "zoujiaqing"
+copyright "Copyright © 2022, zoujiaqing"
+license "proprietary"

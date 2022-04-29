@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/routing
+routing.so
+routing.dylib
+routing.dll
+routing.a
+routing.lib
+routing-test-*
+*.exe
+*.o
+*.obj
+*.lst
