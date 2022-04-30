@@ -37,7 +37,7 @@ class Router(RoutingHandler)
     {
         auto route = new Route!RoutingHandler(path, method, handler);
 
-        auto matches = path.matchAll(regex(`\{(\w+):([^\}]+)?\}`));
+        auto matches = path.matchAll(regex(`\{(\w+)(:([^\}]+))?\}`));
         if (matches)
         {
             string[uint] paramKeys;
@@ -48,7 +48,7 @@ class Router(RoutingHandler)
             foreach (m; matches)
             {
                 paramKeys[paramCount] = m[1];
-                string reg = m[2].length ? m[2] : "\\w+";
+                string reg = m[3].length ? m[3] : "\\w+";
                 pattern = pattern.replaceFirst(m[0], "(" ~ reg ~ ")");
                 urlTemplate = urlTemplate.replaceFirst(m[0], "{" ~ m[1] ~ "}");
                 paramCount++;

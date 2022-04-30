@@ -22,12 +22,17 @@ void main()
 		writeln("Hello user ", params["id"], " ..");
 	});
 
+	router.add("/blog/{name}", HttpMethod.GET, (string[string] params) {
+		writeln("Hello blog ", params["name"], " ..");
+	});
+
 	// for testing ..
 
 	string[string] params;
 	router.metch("/", HttpMethod.GET, params)(params);
 	router.metch("/hello", HttpMethod.GET, params)(params);
 	router.metch("/user/999", HttpMethod.GET, params)(params);
+	router.metch("/blog/zoujiaqing", HttpMethod.GET, params)(params);
 	router.metch("/hello", HttpMethod.POST, params)(params);
 
 	writeln("How to use it?");
