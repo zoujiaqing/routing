@@ -1,3 +1,5 @@
+module main;
+
 import std.stdio;
 
 import routing.Router;
@@ -17,7 +19,7 @@ void main()
 	});
 
 	router.add("/user/{id:\\d+}", HttpMethod.GET, () {
-		writeln("Hello world ..");
+		writeln("Hello user ..");
 	});
 
 
@@ -26,6 +28,7 @@ void main()
 	router.metch("/", HttpMethod.GET)();
 	router.metch("/hello", HttpMethod.GET)();
 	router.metch("/user/999", HttpMethod.GET)();
+	router.metch("/hello", HttpMethod.POST)();
 
 	writeln("How to use it?");
 }
