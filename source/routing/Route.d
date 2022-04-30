@@ -25,8 +25,6 @@ class Route(RoutingHandler)
         string urlTemplate;
 
         string[uint] paramKeys;
-
-        string[string] params;
     }
     
     this(string path, HttpMethod method, RoutingHandler handler)

@@ -4,31 +4,31 @@ import std.stdio;
 
 import routing.Router;
 
-alias void delegate() RequestHandler;
+alias void delegate(string[string]) RequestHandler;
 
 void main()
 {
 	auto router = new Router!RequestHandler;
 
-	router.add("/", HttpMethod.GET, () {
+	router.add("/", HttpMethod.GET, (string[string] params) {
 		writeln("Hello index ..");
 	});
 
-	router.add("/hello", HttpMethod.GET, () {
+	router.add("/hello", HttpMethod.GET, (string[string] params) {
 		writeln("Hello world ..");
 	});
 
-	router.add("/user/{id:\\d+}", HttpMethod.GET, () {
-		writeln("Hello user ..");
+	router.add("/user/{id:\\d+}", HttpMethod.GET, (string[string] params) {
+		writeln("Hello user ", params["id"], " ..");
 	});
-
 
 	// for testing ..
 
-	router.metch("/", HttpMethod.GET)();
-	router.metch("/hello", HttpMethod.GET)();
-	router.metch("/user/999", HttpMethod.GET)();
-	router.metch("/hello", HttpMethod.POST)();
+	string[string] params;
+	router.metch("/", HttpMethod.GET, params)(params);
+	router.metch("/hello", HttpMethod.GET, params)(params);
+	router.metch("/user/999", HttpMethod.GET, params)(params);
+	router.metch("/hello", HttpMethod.POST, params)(params);
 
 	writeln("How to use it?");
 }

@@ -7,6 +7,7 @@ import std.stdio;
 
 import std.regex : regex, match, matchAll;
 import std.array : replaceFirst;
+import std.uri : decode;
 
 class Router(RoutingHandler)
 {
@@ -62,9 +63,27 @@ class Router(RoutingHandler)
         return route;
     }
 
-    RoutingHandler metch(string path, HttpMethod method)
+    RoutingHandler metch(string path, HttpMethod method, ref string[string] params)
     {
-        auto route = metchRoute(path);
+        auto route = _routes.get(path, null);
+
+        if (route is null)
+        {
+            foreach ( r ; _regexRoutes )
+            {
+                auto matched = path.match(regex(r.pattern));
+
+                if (matched)
+                {
+                    route = r;
+                    
+                    foreach ( i, key ; route.paramKeys )
+                    {
+                        params[key] = decode(matched.captures[i + 1]);
+                    }
+                }
+            }
+        }
 
         if (route is null)
         {
@@ -81,38 +100,6 @@ class Router(RoutingHandler)
             return cast(RoutingHandler) null;
         }
 
-        return route.find(method);
-    }
-
-    Route!RoutingHandler metchRoute(string path)
-    {
-        auto route = _routes.get(path, null);
-
-        if (route !is null)
-        {
-            return route;
-        }
-
-        foreach ( r ; _regexRoutes)
-        {
-            auto matched = path.match(regex(r.pattern));
-
-            return r;
-
-            // if (matched)
-            // {
-            //     route = r.copy();
-            //     string[string] params;
-            //     foreach (i, key; route.getParamKeys())
-            //     {
-            //         params[key] = decode(matched.captures[i + 1]);
-            //     }
-
-            //     route.setParams(params);
-            //     return route;
-            // }
-        }
-
-        return route;
+        return handler;
     }
 }
