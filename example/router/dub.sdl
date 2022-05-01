@@ -1,6 +1,6 @@
-name "routing"
-targetType "library"
+name "router"
 description "A minimal D application."
 authors "zoujiaqing"
 copyright "Copyright © 2022, zoujiaqing"
 license "proprietary"
+dependency "routing" path="../../"
